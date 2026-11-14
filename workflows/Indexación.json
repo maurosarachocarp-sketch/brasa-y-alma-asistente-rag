@@ -1,0 +1,311 @@
+{
+  "name": "Indexación",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f47838e9-211c-42af-841f-496fa5f50860",
+      "name": "Inicio manual"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1iua1W3FQwjsdVCU2e4krAUdLTBfYvEbajYf5i0F8FDo",
+          "mode": "list",
+          "cachedResultName": "Base de conocimiento - Brasa y Alma",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iua1W3FQwjsdVCU2e4krAUdLTBfYvEbajYf5i0F8FDo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "producto",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iua1W3FQwjsdVCU2e4krAUdLTBfYvEbajYf5i0F8FDo/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        -80
+      ],
+      "id": "7bce6ea4-61d1-4c11-9497-fc4854558fa2",
+      "name": "Leer productos",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OQdos27juSQu6UUu",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c13bd008-4802-455f-98a4-c9502f8ff824",
+              "name": "texto",
+              "value": "={{\n  \"Producto: \" + $json.producto +\n  \". Precio: $\" + $json.precio +\n  \". Ingredientes: \" + $json.ingredientes +\n  \". Descripción: \" + ($json.descripcion || \"Sin descripción\") +\n  \". Disponibilidad: \" + $json.disponibilidad + \".\"\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        416,
+        -80
+      ],
+      "id": "61f64e32-a33e-4032-8d19-ee521dda0950",
+      "name": "Preparar texto productos"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1iua1W3FQwjsdVCU2e4krAUdLTBfYvEbajYf5i0F8FDo",
+          "mode": "list",
+          "cachedResultName": "Base de conocimiento - Brasa y Alma",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iua1W3FQwjsdVCU2e4krAUdLTBfYvEbajYf5i0F8FDo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1282364866,
+          "mode": "list",
+          "cachedResultName": "informacion_negocio",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iua1W3FQwjsdVCU2e4krAUdLTBfYvEbajYf5i0F8FDo/edit#gid=1282364866"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        112
+      ],
+      "id": "5bc86ff0-4839-4664-8d7a-3a4af188317e",
+      "name": "Leer información negocio",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OQdos27juSQu6UUu",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dfac4014-eaa6-40c5-a1ae-61740117e852",
+              "name": "texto",
+              "value": "={{\n  \"Categoría: \" + $json.categoria +\n  \". Dato: \" + $json.dato +\n  \". Valor: \" + $json.valor + \".\"\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        416,
+        112
+      ],
+      "id": "b0f069ab-354f-49d5-a859-97ed3987a07b",
+      "name": "Preparar texto negocio"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        640,
+        16
+      ],
+      "id": "fd4d8aad-ff84-4727-9918-e70c2a307e73",
+      "name": "Unificar conocimientos"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "embeddingBatchSize": 5,
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        864,
+        16
+      ],
+      "id": "5b29481a-8850-43ba-ba74-e205490feda7",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Vh0CnvHgi49ef5qw",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        784,
+        176
+      ],
+      "id": "5fbf32bc-3bb8-4bce-93cf-17fcbd8063e1",
+      "name": "Embeddings Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ZhIN428rhJL9A8rn",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        976,
+        176
+      ],
+      "id": "775efbc5-e312-4615-94f4-117d71dae3d4",
+      "name": "Default Data Loader"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Inicio manual": {
+      "main": [
+        [
+          {
+            "node": "Leer información negocio",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Leer productos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer productos": {
+      "main": [
+        [
+          {
+            "node": "Preparar texto productos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar texto productos": {
+      "main": [
+        [
+          {
+            "node": "Unificar conocimientos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer información negocio": {
+      "main": [
+        [
+          {
+            "node": "Preparar texto negocio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar texto negocio": {
+      "main": [
+        [
+          {
+            "node": "Unificar conocimientos",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Unificar conocimientos": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "MLLhPmgyTytPcA9b",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "dae87113-b87f-455d-8d64-b9983f5768ff",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "050e516147486488c444a36c3a4a1cb08c0ee9f64461eb47d19c5c48b9d998c7"
+  },
+  "nodeGroups": [],
+  "id": "RtPuOTar76bJegV7",
+  "tags": []
+}
