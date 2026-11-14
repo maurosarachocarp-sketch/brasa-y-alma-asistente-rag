@@ -1,0 +1,137 @@
+{
+  "name": "Brasa y alma - Gestión de errores",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8ab78521-cc0d-44c9-a767-e40b9eb01455",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1iua1W3FQwjsdVCU2e4krAUdLTBfYvEbajYf5i0F8FDo",
+          "mode": "list",
+          "cachedResultName": "Base de conocimiento - Brasa y Alma",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iua1W3FQwjsdVCU2e4krAUdLTBfYvEbajYf5i0F8FDo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1762705528,
+          "mode": "list",
+          "cachedResultName": "errores",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iua1W3FQwjsdVCU2e4krAUdLTBfYvEbajYf5i0F8FDo/edit#gid=1762705528"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fecha": "={{ $now.toISO() }}",
+            "workflow": "={{ $json.workflow.name }}",
+            "nodo": "={{ $json.execution.lastNodeExecuted }}",
+            "mensaje_error": "={{ $json.execution.error.message }}",
+            "url_ejecucion": "={{ $json.execution.url }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow",
+              "displayName": "workflow",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nodo",
+              "displayName": "nodo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "mensaje_error",
+              "displayName": "mensaje_error",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "url_ejecucion",
+              "displayName": "url_ejecucion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        0
+      ],
+      "id": "d830fd83-2d4d-4e4c-86dc-2818332dc3db",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OQdos27juSQu6UUu",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f8c9a46b-436d-480d-a994-de25bd925cea",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "050e516147486488c444a36c3a4a1cb08c0ee9f64461eb47d19c5c48b9d998c7"
+  },
+  "nodeGroups": [],
+  "id": "MLLhPmgyTytPcA9b",
+  "tags": []
+}
